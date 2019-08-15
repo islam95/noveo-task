@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import {
+  Nav,
   Navbar,
+  NavItem,
   NavbarBrand,
   Button,
   Jumbotron
@@ -11,11 +13,6 @@ import {getFiles} from '../../redux/actions/disk';
 
 class Login extends Component {
 
-  state = {
-    accessToken: null,
-    files: []
-  }
-  
   componentDidMount() {
     this.props.checkAuth()
   }
@@ -41,20 +38,29 @@ class Login extends Component {
       <div>
         <Navbar color="light" light expand="md">
           <NavbarBrand>Yandex.disk</NavbarBrand>
+          <Nav className="ml-auto" navbar>
+            <NavItem>
+            {!this.props.token ? 
+            <Button color="primary" onClick={this.login}>Login</Button> :
+            <Button color="danger" onClick={this.logout}>Logout</Button>}
+            </NavItem>
+          </Nav>
         </Navbar>
-        <Jumbotron>
-          <h1 className="display-3">Welcome!</h1>
-          <p className="lead">Вы можете просматривать ваш Yandex disk в этом приложении. Но сперва вам придётся авторизоваться</p>
-          <hr className="my-2" />
-          <p>При нажатии кнопки ниже вы перейдете на страницу входа в Yandex.</p>
-          <p className="lead">
-            {! this.props.token && <Button color="primary" onClick={this.login}>Login</Button>}
-            {this.props.token && <Button color="primary" onClick={this.logout}>Logout</Button>}
-            <Button color="primary" onClick={this.getFiles}>Get files</Button>
-          </p>
-          {this.props.token}
-          {JSON.stringify(this.props.files)}
-        </Jumbotron>
+       
+          <Jumbotron>
+            <h1 className="display-3">Welcome my friend!</h1>
+            <p className="lead">You can explore your Yandex disk in this app. But first you need to login.</p>
+            <hr className="my-2" />
+            <p>Please login. You will be redirected to Yandex signin page. See you soon!</p>
+            <p className="lead">
+              {!this.props.token && <Button color="primary" onClick={this.login}>Login</Button>}
+              <Button color="primary" onClick={this.getFiles}>Get files</Button>
+            </p>
+            {this.props.token}
+            {JSON.stringify(this.props.files)}
+          </Jumbotron>
+      
+
       </div>
     );
   }
@@ -70,11 +76,11 @@ const mapStateToProps = ({auth, disk}) => {
 const mapDispatchToProps = dispatch => {
   return {
     performLogin: () => dispatch(performLogin()),
+    performLogout: () => dispatch(performLogout()),
+    checkAuth: () => dispatch(checkAuth()),
     getFiles: (token, path) => {
       return dispatch(getFiles(token, path))
-    },
-    checkAuth: () => dispatch(checkAuth()),
-    performLogout: () => dispatch(performLogout())
+    }
   };
 };
 

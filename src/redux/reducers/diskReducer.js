@@ -3,7 +3,8 @@ import * as Types from '../actions/types';
 const INITIAL_STATE = {
   files: []
 }
-const Auth = (state = INITIAL_STATE, action) => {
+
+const Disk = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case Types.LOAD_DISK:
       return { ...state, files: action.files }
@@ -13,4 +14,4 @@ const Auth = (state = INITIAL_STATE, action) => {
   }
 }
 
-export default Auth
+export default Disk
