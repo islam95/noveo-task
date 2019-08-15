@@ -1,6 +1,7 @@
 import { LOAD_DISK } from './types';
 import * as api from '../../helpers/api';
 
+// Get all items from api call and save them to redux store
 export const getFiles = (token, path) => {
   return async dispatch => {
     const files = await api.getFiles(token, path);
