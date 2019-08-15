@@ -1,11 +1,9 @@
 import { LOAD_DISK } from './types';
-import { baseURL } from '../../constants';
 import * as api from '../../helpers/api';
 
-
-export const getFiles = (token) => {
+export const getFiles = (token, path) => {
   return async dispatch => {
-    const files = await api.getFiles(token);
+    const files = await api.getFiles(token, path);
 
     dispatch({
       type: LOAD_DISK,
