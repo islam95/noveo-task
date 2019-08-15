@@ -13,6 +13,7 @@ const createInstance = (token) => {
 export const getFiles = async (token, path) => {
   const instance = createInstance(token)
   const limitFiles = 100;
-  const { data } = await instance.get(`${cloudApi}?path=${path}&limit=${limitFiles}`)
-  return data;
+  const { data } = await instance.get(`${cloudApi}?path=${path}&limit=${limitFiles}`);
+  const { items } = data._embedded;
+  return items;
 }
