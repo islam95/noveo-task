@@ -6,7 +6,7 @@ import {
   Button,
   Jumbotron
 } from 'reactstrap';
-import {performLogin} from '../../redux/actions/auth';
+import {performLogin, checkAuth, performLogout} from '../../redux/actions/auth';
 import {getFiles} from '../../redux/actions/disk';
 
 class Login extends Component {
@@ -15,14 +15,23 @@ class Login extends Component {
     accessToken: null,
     files: []
   }
+  // did mount check loging read local storage and if there 
+  componentDidMount() {
+    this.props.checkAuth()
+  }
 
   login = () => {
     this.props.performLogin()
   }
 
+
+  logout = () => {
+    this.props.performLogout()
+  }
+
   getFiles = async () => {
     if (this.props.token) {
-      this.props.getFiles(this.props.token)
+      this.props.getFiles(this.props.token, encodeURIComponent('/'))
     } else {
       alert('Authenticate first')
     }
@@ -40,7 +49,8 @@ class Login extends Component {
           <hr className="my-2" />
           <p>При нажатии кнопки ниже вы перейдете на страницу входа в Yandex.</p>
           <p className="lead">
-            <Button color="primary" onClick={this.login}>Login</Button>
+            {! this.props.token && <Button color="primary" onClick={this.login}>Login</Button>}
+            {this.props.token && <Button color="primary" onClick={this.logout}>Logout</Button>}
             <Button color="primary" onClick={this.getFiles}>Get files</Button>
           </p>
           {this.props.token}
@@ -60,13 +70,12 @@ const mapStateToProps = ({auth, disk}) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    performLogin: () => {
-      return dispatch(performLogin())
+    performLogin: () => dispatch(performLogin()),
+    getFiles: (token, path) => {
+      return dispatch(getFiles(token, path))
     },
-    getFiles: (token) => {
-      return dispatch(getFiles(token))
-    }
-    
+    checkAuth: () => dispatch(checkAuth()),
+    performLogout: () => dispatch(performLogout())
   };
 };
 
