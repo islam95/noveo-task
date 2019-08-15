@@ -1,7 +1,7 @@
 import React from "react";
 import { Jumbotron, Button } from "reactstrap";
 
-const Home = props => (
+const Home = ({login}) => (
   <Jumbotron>
     <h1 className="display-3">Welcome my friend!</h1>
     <p className="lead">
@@ -12,7 +12,7 @@ const Home = props => (
       Please login. You will be redirected to Yandex signin page. See you soon!
     </p>
     <p className="lead">
-      <Button color="primary" onClick={props.login}>
+      <Button color="primary" onClick={login}>
         Login
       </Button>
     </p>
