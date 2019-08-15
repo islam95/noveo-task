@@ -1,19 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  Nav,
-  Navbar,
-  NavItem,
-  NavbarBrand,
-  Button,
-  Jumbotron
-} from "reactstrap";
-import {
   performLogin,
   checkAuth,
   performLogout
 } from "../../redux/actions/auth";
 import { getFiles } from "../../redux/actions/disk";
+import Home from "../Home/Home";
+import NavBar from "../NavBar/NavBar";
 
 class Login extends Component {
   componentDidMount() {
@@ -22,10 +16,12 @@ class Login extends Component {
 
   login = () => {
     this.props.performLogin();
+    this.props.history.push("/disk");
   };
 
   logout = () => {
     this.props.performLogout();
+    this.props.history.push("/");
   };
 
   getFiles = async () => {
@@ -39,47 +35,13 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <Navbar color="light" light expand="md">
-          <NavbarBrand>Yandex.disk</NavbarBrand>
-          <Nav className="ml-auto" navbar>
-            <NavItem>
-              {!this.props.token ? (
-                <Button color="primary" onClick={this.login}>
-                  Login
-                </Button>
-              ) : (
-                <Button color="danger" onClick={this.logout}>
-                  Logout
-                </Button>
-              )}
-            </NavItem>
-          </Nav>
-        </Navbar>
+        <NavBar
+          token={this.props.token}
+          login={this.login}
+          logout={this.logout}
+        />
 
-        <Jumbotron>
-          <h1 className="display-3">Welcome my friend!</h1>
-          <p className="lead">
-            You can explore your Yandex disk in this app. But first you need to
-            login.
-          </p>
-          <hr className="my-2" />
-          <p>
-            Please login. You will be redirected to Yandex signin page. See you
-            soon!
-          </p>
-          <p className="lead">
-            {!this.props.token && (
-              <Button color="primary" onClick={this.login}>
-                Login
-              </Button>
-            )}
-            <Button color="primary" onClick={this.getFiles}>
-              Get files
-            </Button>
-          </p>
-          {this.props.token}
-          {JSON.stringify(this.props.files)}
-        </Jumbotron>
+        {!this.props.token && <Home login={this.login} />}
       </div>
     );
   }
