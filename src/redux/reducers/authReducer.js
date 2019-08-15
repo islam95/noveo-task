@@ -1,6 +1,5 @@
 import * as Types from '../actions/types';
 
-
 const INITIAL_STATE = {
   token: null
 }

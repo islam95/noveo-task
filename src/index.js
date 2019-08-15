@@ -6,14 +6,13 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './redux/store/store';
 import App from './components/App/App';
-import Login from './components/Login/Login'
+import Disk from './components/Disk/Disk';
 
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/files" component={Login} />
         <Route path="/" component={App} />
+        <Route exact path="/files" component={Disk} />
     </Router>
   </Provider>,
 document.getElementById('root'));
