@@ -25,23 +25,24 @@ class Login extends Component {
   };
 
   getFiles = async () => {
-    if (this.props.token) {
-      this.props.getFiles(this.props.token, encodeURIComponent("/"));
+    const { token } = this.props;
+    if (token) {
+      this.props.getFiles(token, encodeURIComponent("/"));
     } else {
       alert("Authenticate first");
     }
   };
 
   render() {
+    const { token } = this.props
     return (
       <div>
         <NavBar
-          token={this.props.token}
+          token={token}
           login={this.login}
           logout={this.logout}
         />
-
-        {!this.props.token && <Home login={this.login} />}
+        {!token && <Home login={this.login} />}
       </div>
     );
   }
