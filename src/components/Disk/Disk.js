@@ -1,13 +1,30 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { checkAuth } from "../../redux/actions/auth";
 
 class Disk extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+  componentDidMount() {
+    this.props.checkAuth();
   }
   render() {
     return <div>This is a file explorer</div>;
   }
 }
 
-export default Disk;
+const mapStateToProps = ({ auth, disk }) => {
+  return {
+    token: auth.token,
+    files: disk.files
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    checkAuth: () => dispatch(checkAuth())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Disk);
