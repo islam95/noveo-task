@@ -2,13 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { checkAuth } from "../../redux/actions/auth";
 import { getFiles } from "../../redux/actions/disk";
-import {
-  Button,
-  Table,
-  Container,
-  Row,
-  Col
-} from "reactstrap";
+import { Button, Table, Container, Row, Col } from "reactstrap";
 import Breadcrumb from "./Breadcrumb";
 import DiskContent from "./DiskContent";
 
