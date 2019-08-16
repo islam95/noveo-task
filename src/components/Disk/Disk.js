@@ -2,31 +2,40 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { checkAuth } from "../../redux/actions/auth";
 import { getFiles } from "../../redux/actions/disk";
-import { Button, Table, Container, Row, Col, Breadcrumb, BreadcrumbItem } from "reactstrap";
-import {formatBytes} from "../../helpers/helpers";
+import {
+  Button,
+  Table,
+  Container,
+  Row,
+  Col,
+  Breadcrumb,
+  BreadcrumbItem
+} from "reactstrap";
+import { formatBytes, removeDiskColumn } from "../../helpers/helpers";
 import { FaFolder } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 class Disk extends Component {
   componentDidMount() {
     this.props.checkAuth();
   }
 
-  getFiles = async () => {
+  getDisk = async (path = "/") => {
     const { token } = this.props;
     if (token) {
-      this.props.getFiles(token, encodeURIComponent("/"));
+      this.props.onGetFiles(token, encodeURIComponent(path));
     } else {
-      alert("Authenticate first");
+      this.props.history.push("/");
     }
   };
 
   render() {
-    const { token, files } = this.props;
+    const { token, diskFiles } = this.props;
     return !token ? null : (
       <React.Fragment>
-        {files.length === 0 ? (
+        {!diskFiles ? (
           <div style={{ textAlign: "center" }}>
-            <Button color="success" onClick={this.getFiles}>
+            <Button color="success" onClick={() => this.getDisk()}>
               Get your files
             </Button>
           </div>
@@ -36,12 +45,15 @@ class Disk extends Component {
               <Row>
                 <Col sm="12" md={{ size: 8, offset: 2 }}>
                   <h1>Files in your Yandex.Disk</h1>
-                  <br/>
+                  <br />
                   <Breadcrumb tag="nav" listTag="div">
-                    <BreadcrumbItem tag="a" href="#">Home</BreadcrumbItem>
-                    <BreadcrumbItem tag="a" href="#">Library</BreadcrumbItem>
-                    <BreadcrumbItem tag="a" href="#">Data</BreadcrumbItem>
-                    <BreadcrumbItem active tag="span">Bootstrap</BreadcrumbItem>
+                    {diskFiles.path === "disk:/" ? (
+                      <BreadcrumbItem active tag="span">
+                        {diskFiles.path}
+                      </BreadcrumbItem>
+                    ) : (
+                      ""
+                    )}
                   </Breadcrumb>
                   <Table striped>
                     <thead>
@@ -51,15 +63,29 @@ class Disk extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {files.map((file, i) => {
-                        const { name, path, type, size } = file;
+                      {diskFiles.items.map((item, i) => {
+                        const { name, path, type, size } = item;
+                        console.log(path);
+                        const newPath = removeDiskColumn(path);
                         
                         return (
                           <tr key={i}>
                             <td>
-                              {type === "dir" && <FaFolder />}{" "}{name}
+                              {type === "dir" ? (
+                                <React.Fragment>
+                                  <Button
+                                    color="link"
+                                    onClick={() => this.getDisk(name)}
+                                  >
+                                    <FaFolder />{" "}
+                                    <Link to={`${newPath}`}>{name}</Link>
+                                  </Button>
+                                </React.Fragment>
+                              ) : (
+                                name
+                              )}
                             </td>
-                            <td>{type === 'file' && formatBytes(size)}</td>
+                            <td>{type === "file" && formatBytes(size)}</td>
                           </tr>
                         );
                       })}
@@ -78,14 +104,14 @@ class Disk extends Component {
 const mapStateToProps = ({ auth, disk }) => {
   return {
     token: auth.token,
-    files: disk.files
+    diskFiles: disk.disk
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     checkAuth: () => dispatch(checkAuth()),
-    getFiles: (token, path) => {
+    onGetFiles: (token, path) => {
       return dispatch(getFiles(token, path));
     }
   };
