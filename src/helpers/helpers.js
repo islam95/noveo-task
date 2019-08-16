@@ -16,3 +16,8 @@ export const formatBytes = (bytes, decimals = 2) => {
     parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + " " + sizes[i]
   );
 };
+
+export const removeDiskColumn = str => {
+  const newString = str.replace(":", "");
+  return newString;
+};
