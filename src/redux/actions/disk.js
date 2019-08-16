@@ -4,11 +4,11 @@ import * as api from "../../helpers/api";
 // Get all items from api call and save them to redux store
 export const getFiles = (token, path) => {
   return async dispatch => {
-    const files = await api.getFiles(token, path);
+    const disk = await api.getFiles(token, path);
 
     dispatch({
       type: LOAD_DISK,
-      files
+      disk
     });
   };
 };
