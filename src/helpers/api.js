@@ -16,6 +16,5 @@ export const getFiles = async (token, path) => {
   const { data } = await instance.get(
     `${cloudApi}?path=${path}&limit=${limitFiles}`
   );
-  const { items } = data._embedded;
-  return items;
+  return data._embedded;
 };
