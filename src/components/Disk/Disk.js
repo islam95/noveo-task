@@ -7,13 +7,10 @@ import {
   Table,
   Container,
   Row,
-  Col,
-  Breadcrumb,
-  BreadcrumbItem
+  Col
 } from "reactstrap";
-import { formatBytes, removeDiskColumn } from "../../helpers/helpers";
-import { FaFolder } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import Breadcrumb from "./Breadcrumb";
+import DiskContent from "./DiskContent";
 
 class Disk extends Component {
   componentDidMount() {
@@ -46,15 +43,7 @@ class Disk extends Component {
                 <Col sm="12" md={{ size: 8, offset: 2 }}>
                   <h1>Files in your Yandex.Disk</h1>
                   <br />
-                  <Breadcrumb tag="nav" listTag="div">
-                    {diskFiles.path === "disk:/" ? (
-                      <BreadcrumbItem active tag="span">
-                        {diskFiles.path}
-                      </BreadcrumbItem>
-                    ) : (
-                      ""
-                    )}
-                  </Breadcrumb>
+                  <Breadcrumb path={diskFiles.path} getDisk={this.getDisk} />
                   <Table striped>
                     <thead>
                       <tr>
@@ -62,34 +51,7 @@ class Disk extends Component {
                         <th>Size</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      {diskFiles.items.map((item, i) => {
-                        const { name, path, type, size } = item;
-                        console.log(path);
-                        const newPath = removeDiskColumn(path);
-                        
-                        return (
-                          <tr key={i}>
-                            <td>
-                              {type === "dir" ? (
-                                <React.Fragment>
-                                  <Button
-                                    color="link"
-                                    onClick={() => this.getDisk(name)}
-                                  >
-                                    <FaFolder />{" "}
-                                    <Link to={`${newPath}`}>{name}</Link>
-                                  </Button>
-                                </React.Fragment>
-                              ) : (
-                                name
-                              )}
-                            </td>
-                            <td>{type === "file" && formatBytes(size)}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
+                    <DiskContent files={diskFiles} getDisk={this.getDisk} />
                   </Table>
                 </Col>
               </Row>
