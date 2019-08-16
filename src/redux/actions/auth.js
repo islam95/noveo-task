@@ -1,10 +1,6 @@
 import { SET_TOKEN } from "./types";
 import { baseURL } from "../../helpers/constants";
-
-// To get just access_token from url
-const parseAccessToken = url => {
-  if (url) return /access_token=([^&]+)/.exec(url)[1];
-};
+import { parseAccessToken } from "../../helpers/helpers";
 
 // Check if the user authorised
 export const checkAuth = () => {
