@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import {
   performLogin,
   checkAuth,
   performLogout
 } from "../../redux/actions/auth";
-import { getFiles } from "../../redux/actions/disk";
+// import { getFiles } from "../../redux/actions/disk";
 import Home from "../Home/Home";
 import NavBar from "../NavBar/NavBar";
 
-class Login extends Component {
+class App extends Component {
   componentDidMount() {
     this.props.checkAuth();
   }
@@ -24,26 +25,22 @@ class Login extends Component {
     this.props.history.push("/");
   };
 
-  getFiles = async () => {
-    const { token } = this.props;
-    if (token) {
-      this.props.getFiles(token, encodeURIComponent("/"));
-    } else {
-      alert("Authenticate first");
-    }
-  };
+  // getFiles = async () => {
+  //   const { token } = this.props;
+  //   if (token) {
+  //     this.props.getFiles(token, encodeURIComponent("/"));
+  //   } else {
+  //     console.log("Authenticate first");
+  //   }
+  // };
 
   render() {
-    const { token } = this.props
+    const { token } = this.props;
     return (
-      <div>
-        <NavBar
-          token={token}
-          login={this.login}
-          logout={this.logout}
-        />
+      <React.Fragment>
+        <NavBar token={token} login={this.login} logout={this.logout} />
         {!token && <Home login={this.login} />}
-      </div>
+      </React.Fragment>
     );
   }
 }
@@ -59,14 +56,13 @@ const mapDispatchToProps = dispatch => {
   return {
     performLogin: () => dispatch(performLogin()),
     performLogout: () => dispatch(performLogout()),
-    checkAuth: () => dispatch(checkAuth()),
-    getFiles: (token, path) => {
-      return dispatch(getFiles(token, path));
-    }
+    checkAuth: () => dispatch(checkAuth())
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(App)
+);
