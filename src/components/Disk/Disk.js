@@ -21,10 +21,10 @@ class Disk extends Component {
   };
 
   render() {
-    const { token, diskFiles } = this.props;
+    const { token, diskFiles, loading } = this.props;
     return !token ? null : (
       <React.Fragment>
-        {!diskFiles ? (
+        {loading ? (
           <div style={{ textAlign: "center" }}>
             <Button color="success" onClick={() => this.getDisk()}>
               Get your files
@@ -60,7 +60,8 @@ class Disk extends Component {
 const mapStateToProps = ({ auth, disk }) => {
   return {
     token: auth.token,
-    diskFiles: disk.disk
+    diskFiles: disk.disk,
+    loading: disk.loading
   };
 };
 

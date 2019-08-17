@@ -8,6 +8,7 @@ export const getFiles = (token, path) => {
 
     dispatch({
       type: LOAD_DISK,
+      loading: false,
       disk
     });
   };
