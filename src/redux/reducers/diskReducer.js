@@ -1,14 +1,10 @@
 import * as Types from "../actions/types";
 
-// const INITIAL_STATE = {
-//   disk: {}
-// };
-
-const Disk = (state = {}, action) => {
+const Disk = (state = { loading: true }, action) => {
   const { type, disk } = action;
   switch (type) {
     case Types.LOAD_DISK:
-      return { ...state, disk };
+      return { ...state, loading: false, disk };
 
     default:
       return state;
