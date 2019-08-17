@@ -1,5 +1,5 @@
 import React from "react";
-import { formatBytes, removeDiskColumn } from "../../helpers/helpers";
+import { formatBytes, cleanUrl } from "../../helpers/helpers";
 import { FaFolder } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -7,12 +7,13 @@ const DiskContent = props => (
   <tbody>
     {props.files.items.map((item, i) => {
       const { name, path, type, size } = item;
-      const newPath = removeDiskColumn(path);
+      let newPath = cleanUrl(path);
+      const link = !newPath.startsWith("files") ? `/files/${newPath}` : newPath;
       return (
         <tr key={i}>
           <td>
             {type === "dir" ? (
-              <Link to={`${newPath}`} onClick={() => props.getDisk(name)}>
+              <Link to={`${link}`} onClick={() => props.getDisk(path)}>
                 <FaFolder /> {name}
               </Link>
             ) : (

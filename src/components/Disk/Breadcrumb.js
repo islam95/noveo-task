@@ -1,6 +1,7 @@
 import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
+import { newLink } from "../../helpers/helpers";
 
 const BreadcrumbComponent = props => (
   <Breadcrumb tag="nav" listTag="div">
@@ -12,8 +13,8 @@ const BreadcrumbComponent = props => (
       ) : (
         <BreadcrumbItem key={i} tag="span">
           <Link
-            onClick={() => props.getDisk(`${item === "disk:" ? "/" : item}`)}
-            to={`${item === "disk:" ? "/disk" : item}`}
+            onClick={() => props.getDisk(newLink(arr, item))}
+            to={`/files/${newLink(arr, item)}`}
           >
             {item === "disk:" ? "Home" : item}
           </Link>
