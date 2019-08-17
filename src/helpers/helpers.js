@@ -21,7 +21,7 @@ export const cleanUrl = str => {
 
 // Create new path without "disk:" and the last item
 export const newLink = (pathArr, item) => {
-  if(item === "disk:") return "/"
+  if (item === "disk:") return "/";
   let index = pathArr.findIndex(el => el === item);
   return pathArr.slice(1, index + 1).join("/");
-}
+};
