@@ -49,7 +49,7 @@ export const performLogin = () => {
           });
         }
       } catch (err) {
-        console.err("Error occured at loading window", err);
+        console.error("Error occured at loading window", err);
       }
     }, 100);
   };
