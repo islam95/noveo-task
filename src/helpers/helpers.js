@@ -14,10 +14,12 @@ export const formatBytes = (bytes, decimals = 2) => {
   );
 };
 
+// Remove "disk:/" from url
 export const cleanUrl = str => {
   return str.replace("disk:/", "");
 };
 
+// Create new path without "disk:" and the last item
 export const newLink = (pathArr, item) => {
   if(item === "disk:") return "/"
   let index = pathArr.findIndex(el => el === item);
