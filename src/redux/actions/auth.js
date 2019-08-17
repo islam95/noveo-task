@@ -48,8 +48,8 @@ export const performLogin = () => {
             token
           });
         }
-      } catch (e) {
-        console.log(e);
+      } catch (err) {
+        console.err("Error occured at loading window", err);
       }
     }, 100);
   };
