@@ -12,7 +12,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Route path="/" component={App} />
-      <Route path="/disk" component={Disk} />
+      <Route path="/files" component={Disk} />
     </Router>
   </Provider>,
   document.getElementById("root")

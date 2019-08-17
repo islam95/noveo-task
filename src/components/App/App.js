@@ -6,7 +6,6 @@ import {
   checkAuth,
   performLogout
 } from "../../redux/actions/auth";
-// import { getFiles } from "../../redux/actions/disk";
 import Home from "../Home/Home";
 import NavBar from "../NavBar/NavBar";
 
@@ -17,22 +16,13 @@ class App extends Component {
 
   login = () => {
     this.props.performLogin();
-    this.props.history.push("/disk");
+    this.props.history.push("/files");
   };
 
   logout = () => {
     this.props.performLogout();
     this.props.history.push("/");
   };
-
-  // getFiles = async () => {
-  //   const { token } = this.props;
-  //   if (token) {
-  //     this.props.getFiles(token, encodeURIComponent("/"));
-  //   } else {
-  //     console.log("Authenticate first");
-  //   }
-  // };
 
   render() {
     const { token } = this.props;
